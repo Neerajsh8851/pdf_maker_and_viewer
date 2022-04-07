@@ -25,9 +25,11 @@
 
 
         <com.nibodev.pdfx.view.LineLoadingAnimation
-            android:id="@+id/lineLoadingAnimation"
             android:layout_width="76dp"
-            android:layout_height="8dp" />
+            android:layout_height="wrap_content"
+            app:color="?attr/colorPrimary"
+            app:bg_color="#fff"
+            app:line_thickness="10" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

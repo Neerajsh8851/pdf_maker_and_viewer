@@ -5,23 +5,27 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 
 import com.nibodev.pdfx.AppUtils;
 import com.nibodev.pdfx.R;
 
 public class LineLoadingAnimation extends View {
-
-    private TypedArray attrs;
+    private TypedArray attr;
     private Paint paint;
+    private int backgroundColor = 0xffffffff;
+    private int color = 0xff000000;
     private float leftGap = 0;
     private float rightGap = 0;
     private float speedX = 400;
+    private int thickness = 10;
     private long last = System.currentTimeMillis();
     boolean animateLeftGap = true;
 
@@ -31,57 +35,71 @@ public class LineLoadingAnimation extends View {
 
     public LineLoadingAnimation(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        attrs = context.getTheme().obtainStyledAttributes(attrs, R.styleable.LineLoadingAnimation);
-        init();
+        init(attrs);
     }
 
     public LineLoadingAnimation(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.attrs = attrs;
-        init();
+        init(attrs);
     }
 
     public LineLoadingAnimation(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        this.attrs = attrs;
-        init();
+        init(attrs);
     }
 
 
-//    @Override
-//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//        setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
-//    }
-
-    private void init() {
+    private void init(AttributeSet attributeSet) {
         paint = new Paint();
-
+        try {
+            if (attributeSet != null) {
+                attr = getContext().obtainStyledAttributes(attributeSet, R.styleable.LineLoadingAnimation);
+                speedX = attr.getInt(R.styleable.LineLoadingAnimation_animation_speed, (int) speedX);
+                thickness = attr.getInt(R.styleable.LineLoadingAnimation_line_thickness, thickness);
+                color = attr.getColor(R.styleable.LineLoadingAnimation_color, color);
+                backgroundColor = attr.getColor(R.styleable.LineLoadingAnimation_bg_color, backgroundColor);
+            }
+        } finally {
+            if (attr != null) {
+                attr.recycle();
+            }
+        }
     }
 
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        setMeasuredDimension(widthMeasureSpec, thickness);
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         long currentTime = System.currentTimeMillis();
         long delta = currentTime - last;
         last = currentTime;
-        update( delta / 1000f);
-
-        paint.setAntiAlias(true);
-        paint.setColor(0xFFFF3378);
-
-        canvas.drawRoundRect(0 + leftGap, 0, getWidth() - rightGap, getHeight(), 10, 10, paint);
-
+        update(delta / 1000f);
+        render(canvas);
         invalidate();
-        if (AppUtils.isDebugBuild())
-        Log.d("dbg", "onDraw: leftGap: " +leftGap + " rightGap: " + rightGap);
+    }
+
+    private void render(Canvas canvas) {
+        clear(canvas);
+        paint.setAntiAlias(true);
+        paint.setColor(backgroundColor);
+        canvas.drawRect(0, 0, getWidth(), thickness, paint);
+
+        paint.setColor(color);
+        canvas.drawRect(
+                0 + leftGap, 0,
+                getWidth() - rightGap, thickness,
+                paint
+        );
     }
 
     private void update(float dt) {
-        float dis =  speedX * dt;
+        float dis = speedX * dt;
         if (animateLeftGap) {
             leftGap += dis;
             if (leftGap > getWidth()) {
@@ -92,7 +110,7 @@ public class LineLoadingAnimation extends View {
                 animateLeftGap = !animateLeftGap;
                 speedX = Math.abs(speedX);
             }
-        } else  {
+        } else {
             rightGap += dis;
             if (rightGap > getWidth()) {
                 speedX = -speedX;
@@ -103,5 +121,14 @@ public class LineLoadingAnimation extends View {
                 speedX = Math.abs(speedX);
             }
         }
+    }
+
+    private void clear(Canvas canvas) {
+        paint.setColor(0x000);
+        canvas.drawRect(
+                0, 0,
+                getWidth(), getHeight(),
+                paint
+        );
     }
 }

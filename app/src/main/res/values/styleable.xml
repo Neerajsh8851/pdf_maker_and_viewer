@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="LineLoadingAnimation">
-        <attr name="android:thickness" format="integer"/>
+        <attr name="line_thickness" format="integer"/>
         <attr name="animation_speed" format="integer"/>
-        <attr name="android:color" format="color"/>
-        <attr name="android:background" format="color"/>
+        <attr name="color" format="color"/>
+        <attr name="bg_color" format="color"/>
     </declare-styleable>
 </resources>
