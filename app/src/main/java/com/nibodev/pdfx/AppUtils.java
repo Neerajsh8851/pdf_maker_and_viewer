@@ -11,9 +11,15 @@ public class AppUtils {
         if (context instanceof Activity) {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            if (netInfo != null)
             connected = netInfo.isAvailable() && netInfo.isConnectedOrConnecting();
         }
         return connected;
+    }
+
+
+    public static boolean isDebugBuild() {
+        return BuildConfig.DEBUG;
     }
 
 }

@@ -4,8 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/nsxyl/androidStudioProjects/PdfX/app/src/main/res/drawable/app_logo.xml" value="0.2775" />
+        <entry key="..\:/Users/nsxyl/androidStudioProjects/PdfX/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.2775" />
         <entry key="..\:/Users/nsxyl/androidStudioProjects/PdfX/app/src/main/res/layout/activity_interstitial_ad.xml" value="0.27291666666666664" />
-        <entry key="..\:/Users/nsxyl/androidStudioProjects/PdfX/app/src/main/res/layout/activity_launcher.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/nsxyl/androidStudioProjects/PdfX/app/src/main/res/layout/activity_launcher.xml" value="0.22" />
         <entry key="..\:/Users/nsxyl/androidStudioProjects/PdfX/app/src/main/res/layout/activity_main.xml" value="0.19746376811594202" />
         <entry key="..\:/Users/nsxyl/androidStudioProjects/PdfX/app/src/main/res/layout/activity_pdf_view.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/nsxyl/androidStudioProjects/PdfX/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2775" />
