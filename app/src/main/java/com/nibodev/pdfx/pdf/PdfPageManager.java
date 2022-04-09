@@ -3,8 +3,11 @@ package com.nibodev.pdfx.pdf;
 import static com.nibodev.pdfx.Constants.TAG;
 
 import android.graphics.pdf.PdfRenderer;
+import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class PdfPageManager {
@@ -37,11 +40,26 @@ public class PdfPageManager {
         init();
     }
 
+
+    // this function is responsible for instantiating an instance of Pdf page manager
+    public static PdfPageManager newInstance(File file) {
+        ParcelFileDescriptor parcelFileDescriptor;
+        PdfPageManager pageManager = null;
+        try {
+            parcelFileDescriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
+            PdfRenderer renderer = new PdfRenderer(parcelFileDescriptor);
+            pageManager = new PdfPageManager(renderer, new PageCreator());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return pageManager;
+    }
+
     private void init() {
         totalPages = renderer.getPageCount();
         currentPageIndex = 0;
         cachedPages = new ArrayList<>(maxCacheSize);
-        pageBuilder = new PageCreater();
+        pageBuilder = new PageCreator();
     }
 
     public boolean hasNext() {
@@ -112,6 +130,9 @@ public class PdfPageManager {
         return result;
     }
 
+    public int getTotalPages() {
+        return totalPages;
+    }
 
     // close the pdfRenderer when this object gets garbage collected
     @Override

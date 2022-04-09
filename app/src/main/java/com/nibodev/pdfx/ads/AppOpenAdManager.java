@@ -38,42 +38,9 @@ public class AppOpenAdManager {
         return new AdRequest.Builder().build();
     }
 
-    public void showAd(final AppOpenAd appOpenAd) {
+    public void showAd(final AppOpenAd appOpenAd, FullScreenContentCallback callback) {
         if (appOpenAd != null) {
-            FullScreenContentCallback fullScreenContentCallback = new FullScreenContentCallback() {
-                @Override
-                public void onAdClicked() {
-                    super.onAdClicked();
-                    if (isDebugBuild()) {
-                        Log.d(TAG, "onAdClicked: ad was clicked: " + appOpenAd);
-                    }
-                }
-
-                @Override
-                public void onAdDismissedFullScreenContent() {
-                    super.onAdDismissedFullScreenContent();
-                    if (isDebugBuild()) {
-                        Log.d(TAG, "onAdDismissedFullScreenContent: Ad dismissed: " + appOpenAd);
-                    }
-                }
-
-                @Override
-                public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
-                    super.onAdFailedToShowFullScreenContent(adError);
-                }
-
-                @Override
-                public void onAdImpression() {
-                    super.onAdImpression();
-                }
-
-                @Override
-                public void onAdShowedFullScreenContent() {
-                    super.onAdShowedFullScreenContent();
-                }
-            };
-
-            appOpenAd.setFullScreenContentCallback(fullScreenContentCallback);
+            appOpenAd.setFullScreenContentCallback(callback);
             appOpenAd.show((Activity) context);
         }
     }

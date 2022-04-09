@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!--    LIGHT THEME COLORS-->
+
     <color name="bright_pink">#FF3378</color>
+    <color name="grape">#8031a7</color>
+    <color name="rich_gray">#1f2022</color>
+    <color name="rotary_blue">#1f2022</color>
+    <color name="deep_pink">#bd2086</color>
 
-
+    <!--    LIGHT THEME COLORS-->
     <color name="md_theme_light_primary">#6750A4</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
     <color name="md_theme_light_primaryContainer">#EADDFF</color>
